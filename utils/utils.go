@@ -32,7 +32,7 @@ func ListWifiNetworks() []string {
 }
 
 // Prompt shows `msg` and accepts input
-func Prompt(msg string) (string, error) {
+func Prompt(msg string, isPassword bool) (string, error) {
 	validate := func(input string) error {
 		if input == "" {
 			return errors.New("Value can't be empty")
@@ -40,9 +40,18 @@ func Prompt(msg string) (string, error) {
 		return nil
 	}
 
-	prompt := promptui.Prompt{
-		Label:    msg,
-		Validate: validate,
+	var prompt promptui.Prompt
+	if isPassword == true {
+		prompt = promptui.Prompt{
+			Label:    msg,
+			Validate: validate,
+			Mask:     '*',
+		}
+	} else {
+		prompt = promptui.Prompt{
+			Label:    msg,
+			Validate: validate,
+		}
 	}
 
 	result, err := prompt.Run()

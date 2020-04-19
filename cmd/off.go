@@ -11,7 +11,6 @@ import (
 var offCmd = &cobra.Command{
 	Use:   "off",
 	Short: "Turn wifi off",
-	Long:  `A longer description.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Turning wifi off")
 

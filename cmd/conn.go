@@ -12,7 +12,7 @@ import (
 var connCmd = &cobra.Command{
 	Use:   "conn",
 	Short: "Connect to a wifi network",
-	Long:  `A longer description.`,
+	Long:  `Select a wifi network to connect.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var err error
 		name, _ := cmd.Flags().GetString("name")
@@ -23,7 +23,7 @@ var connCmd = &cobra.Command{
 		}
 
 		if password == "" {
-			password, err = utils.Prompt("Enter your password")
+			password, err = utils.Prompt("Enter your password", true)
 		}
 
 		fmt.Printf("Connecting to %s...\n", name)

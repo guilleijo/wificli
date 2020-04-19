@@ -11,8 +11,7 @@ var cfgFile string
 
 var rootCmd = &cobra.Command{
 	Use:   "wificli",
-	Short: "A brief description of your application",
-	Long:  `A longer description`,
+	Short: "CLI for managing wifi connections.",
 }
 
 // Execute func

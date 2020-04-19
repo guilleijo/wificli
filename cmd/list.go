@@ -11,7 +11,6 @@ import (
 var listCmd = &cobra.Command{
 	Use:   "list",
 	Short: "List available wifi networks",
-	Long:  `A longer description`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("Searching networks...")
 		wifiList := utils.ListWifiNetworks()
