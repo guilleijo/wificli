@@ -6,17 +6,24 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 )
 
 // ListWifiNetworks returns list of wifi network names
 func ListWifiNetworks() []string {
+	s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
+	s.Prefix = "Searching networks: "
+	s.Start()
+	defer s.Stop()
+
 	listWifiCmd := exec.Command("bash", "-c", "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport scan")
 	wifiList, err := listWifiCmd.Output()
 
 	var list []string
-	wifiListArray := strings.Split(string(wifiList), "\n")
+	wifiListArray := strings.Split(string(wifiList), "\n")[1:]
 	for _, network := range wifiListArray {
 		networkFields := strings.Fields(network)
 		if len(networkFields) > 0 {

@@ -3,8 +3,10 @@ package cmd
 import (
 	"fmt"
 	"os/exec"
+	"time"
 	"wificli/utils"
 
+	"github.com/briandowns/spinner"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -26,7 +28,11 @@ var connCmd = &cobra.Command{
 			password, err = utils.Prompt("Enter your password", true)
 		}
 
-		fmt.Printf("Connecting to %s...\n", name)
+		s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
+		s.Prefix = fmt.Sprintf("Connecting to %s: ", name)
+		s.FinalMSG = fmt.Sprintf("Success! Connected to %s\n", name)
+		s.Start()
+		defer s.Stop()
 		cmdStr := fmt.Sprintf("networksetup -setairportnetwork en0 %s %s", name, password)
 
 		connectCmd := exec.Command("bash", "-c", cmdStr)
@@ -34,12 +40,11 @@ var connCmd = &cobra.Command{
 		if err != nil {
 			fmt.Printf("%s", err)
 		}
-		fmt.Printf("Connected to %s\n", name)
 	},
 }
 
 func selectWifi() (string, error) {
-	wifiList := utils.ListWifiNetworks()[1:] // Remove header
+	wifiList := utils.ListWifiNetworks()
 
 	prompt := promptui.Select{
 		Label: "Select wifi network",
