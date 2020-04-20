@@ -42,12 +42,20 @@ wificli conn -n <SSID> -p <password>
 wificli conn
 ```
 
+#### Speed
+Download speed test
+```
+wificli speed
+```
+
 ## Dependencies
-- https://github.com/spf13/cobra
-- https://github.com/manifoldco/promptui
-- https://github.com/briandowns/spinner
+- [cobra](https://github.com/spf13/cobra)
+- [promptui](https://github.com/manifoldco/promptui)
+- [spinner](https://github.com/briandowns/spinner)
+- [go-fast](https://github.com/ddo/go-fast)
 
 ## TODO
 - [ ] Add gifs to README
 - [ ] Support saved passwords
 - [ ] Show wifi signal strength
+- [ ] Implement speed test
