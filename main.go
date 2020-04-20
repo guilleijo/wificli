@@ -1,7 +1,7 @@
 package main
 
 import (
-	"wificli/cmd"
+	"github.com/guilleijo/wificli/cmd"
 )
 
 func main() {

@@ -3,8 +3,8 @@ package cmd
 import (
 	"fmt"
 	"strings"
-	"wificli/utils"
 
+	"github.com/guilleijo/wificli/utils"
 	"github.com/spf13/cobra"
 )
 

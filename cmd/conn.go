@@ -6,9 +6,9 @@ import (
 	"os/exec"
 	"strings"
 	"time"
-	"wificli/utils"
 
 	"github.com/briandowns/spinner"
+	"github.com/guilleijo/wificli/utils"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
