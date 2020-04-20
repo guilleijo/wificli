@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"time"
 
+	"github.com/briandowns/spinner"
 	"github.com/ddo/go-fast"
 	"github.com/spf13/cobra"
 )
@@ -11,6 +13,10 @@ var speedCmd = &cobra.Command{
 	Use:   "speed",
 	Short: "Download speed",
 	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Println("Download speed: ")
+		s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
+		s.Start()
+		defer s.Stop()
 		testFast()
 	},
 }

@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
+	"strings"
 	"time"
 	"wificli/utils"
 
@@ -30,16 +32,25 @@ var connCmd = &cobra.Command{
 
 		s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
 		s.Prefix = fmt.Sprintf("Connecting to %s: ", name)
-		s.FinalMSG = fmt.Sprintf("Success! Connected to %s\n", name)
 		s.Start()
-		defer s.Stop()
-		cmdStr := fmt.Sprintf("networksetup -setairportnetwork en0 %s %s", name, password)
 
+		cmdStr := fmt.Sprintf("networksetup -setairportnetwork en0 %s %s", name, password)
 		connectCmd := exec.Command("bash", "-c", cmdStr)
-		_, err = connectCmd.Output()
+		out, err := connectCmd.Output()
 		if err != nil {
 			fmt.Printf("%s", err)
+			os.Exit(1)
 		}
+
+		s.Stop()
+		outStr := string(out)
+		if outStr != "" {
+			errMsg := strings.Split(outStr, "\n")[0]
+			fmt.Printf("%s\n", errMsg)
+			os.Exit(1)
+		}
+
+		fmt.Printf("Success! Connected to %s\n", name)
 	},
 }
 
