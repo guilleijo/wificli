@@ -48,6 +48,12 @@ Download speed test
 wificli speed
 ```
 
+#### Status
+Current wifi connection status
+```
+wificli status
+```
+
 ## Dependencies
 - [cobra](https://github.com/spf13/cobra)
 - [promptui](https://github.com/manifoldco/promptui)
