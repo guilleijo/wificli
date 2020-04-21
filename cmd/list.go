@@ -14,7 +14,7 @@ var listCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		wifiList := utils.ListWifiNetworks()
 		stringSlices := strings.Join(wifiList[:], "\n")
-		fmt.Printf("%s\n", stringSlices)
+		fmt.Println(stringSlices)
 	},
 }
 

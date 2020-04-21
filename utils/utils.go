@@ -17,10 +17,18 @@ func ListWifiNetworks() []string {
 	s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
 	s.Prefix = "Searching networks: "
 	s.Start()
-	defer s.Stop()
 
 	listWifiCmd := exec.Command("bash", "-c", "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport scan")
 	wifiList, err := listWifiCmd.Output()
+	s.Stop()
+
+	if len(wifiList) == 0 {
+		fmt.Println("There are no available networks")
+		if isWifiOff() {
+			fmt.Println("It looks like the wifi is off. You can turn it on running `wificli on`")
+		}
+		os.Exit(1)
+	}
 
 	var list []string
 	wifiListArray := strings.Split(string(wifiList), "\n")[1:]
@@ -76,9 +84,21 @@ func GetWifiPort() string {
 	wifiPort, err := wifiPortCmd.Output()
 
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println(err)
 		os.Exit(1)
 	}
 
 	return string(strings.TrimSpace(string(wifiPort)))
+}
+
+func isWifiOff() bool {
+	wifiStatusCmd := exec.Command("bash", "-c", "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I | awk '/AirPort/{getline; print $2}'")
+	wifiStatus, err := wifiStatusCmd.Output()
+
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	return strings.TrimSpace(string(wifiStatus)) == "Off"
 }
