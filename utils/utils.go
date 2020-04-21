@@ -12,6 +12,14 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+// HandleError prints ands ends program if err is not nil
+func HandleError(err error) {
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+}
+
 // ListWifiNetworks returns list of wifi network names
 func ListWifiNetworks() []string {
 	s := spinner.New(spinner.CharSets[11], 100*time.Millisecond)
@@ -20,6 +28,7 @@ func ListWifiNetworks() []string {
 
 	listWifiCmd := exec.Command("bash", "-c", "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport scan")
 	wifiList, err := listWifiCmd.Output()
+	HandleError(err)
 	s.Stop()
 
 	if len(wifiList) == 0 {
@@ -39,10 +48,6 @@ func ListWifiNetworks() []string {
 		}
 	}
 
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
 	return list
 }
 
@@ -70,10 +75,7 @@ func Prompt(msg string, isPassword bool) (string, error) {
 	}
 
 	result, err := prompt.Run()
-
-	if err != nil {
-		return "", err
-	}
+	HandleError(err)
 
 	return result, nil
 }
@@ -82,11 +84,7 @@ func Prompt(msg string, isPassword bool) (string, error) {
 func GetWifiPort() string {
 	wifiPortCmd := exec.Command("bash", "-c", "networksetup -listallhardwareports | awk '/Wi-Fi/{getline; print $2}'")
 	wifiPort, err := wifiPortCmd.Output()
-
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	HandleError(err)
 
 	return string(strings.TrimSpace(string(wifiPort)))
 }
@@ -94,11 +92,7 @@ func GetWifiPort() string {
 func isWifiOff() bool {
 	wifiStatusCmd := exec.Command("bash", "-c", "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I | awk '/AirPort/{getline; print $2}'")
 	wifiStatus, err := wifiStatusCmd.Output()
-
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
+	HandleError(err)
 
 	return strings.TrimSpace(string(wifiStatus)) == "Off"
 }

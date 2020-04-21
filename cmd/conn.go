@@ -38,10 +38,7 @@ var connCmd = &cobra.Command{
 		cmdStr := fmt.Sprintf("networksetup -setairportnetwork %s %s %s", wifiPort, name, password)
 		connectCmd := exec.Command("bash", "-c", cmdStr)
 		out, err := connectCmd.Output()
-		if err != nil {
-			fmt.Printf("%s", err)
-			os.Exit(1)
-		}
+		utils.HandleError(err)
 
 		s.Stop()
 		outStr := string(out)
@@ -65,11 +62,7 @@ func selectWifi() (string, error) {
 	}
 
 	_, result, err := prompt.Run()
-
-	if err != nil {
-		fmt.Printf("Prompt failed %v\n", err)
-		return result, nil
-	}
+	utils.HandleError(err)
 
 	return result, nil
 }

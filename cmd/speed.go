@@ -6,6 +6,7 @@ import (
 
 	"github.com/briandowns/spinner"
 	"github.com/ddo/go-fast"
+	"github.com/guilleijo/wificli/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -29,14 +30,10 @@ func testFast() {
 	fastCom := fast.New()
 
 	err := fastCom.Init()
-	if err != nil {
-		panic(err)
-	}
+	utils.HandleError(err)
 
 	urls, err := fastCom.GetUrls()
-	if err != nil {
-		panic(err)
-	}
+	utils.HandleError(err)
 
 	KbpsChan := make(chan float64)
 	go func() {
@@ -46,7 +43,5 @@ func testFast() {
 	}()
 
 	err = fastCom.Measure(urls, KbpsChan)
-	if err != nil {
-		panic(err)
-	}
+	utils.HandleError(err)
 }

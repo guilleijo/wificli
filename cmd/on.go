@@ -25,10 +25,7 @@ var onCmd = &cobra.Command{
 		cmdStr := fmt.Sprintf("networksetup -setairportpower %s on", wifiPort)
 		turnOnCmd := exec.Command("bash", "-c", cmdStr)
 		out, err := turnOnCmd.Output()
-		if err != nil {
-			fmt.Printf("%s", err)
-			os.Exit(1)
-		}
+		utils.HandleError(err)
 
 		if string(out) != "" {
 			fmt.Printf("%s", out)
