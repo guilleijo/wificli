@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/briandowns/spinner"
+	"github.com/guilleijo/wificli/utils"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +21,9 @@ var onCmd = &cobra.Command{
 		s.Start()
 		defer s.Stop()
 
-		turnOnCmd := exec.Command("bash", "-c", "networksetup -setairportpower en0 on")
+		wifiPort := utils.GetWifiPort()
+		cmdStr := fmt.Sprintf("networksetup -setairportpower %s on", wifiPort)
+		turnOnCmd := exec.Command("bash", "-c", cmdStr)
 		out, err := turnOnCmd.Output()
 		if err != nil {
 			fmt.Printf("%s", err)

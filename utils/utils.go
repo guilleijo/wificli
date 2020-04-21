@@ -69,3 +69,16 @@ func Prompt(msg string, isPassword bool) (string, error) {
 
 	return result, nil
 }
+
+// GetWifiPort gets the correct device id for wifi commands
+func GetWifiPort() string {
+	wifiPortCmd := exec.Command("bash", "-c", "networksetup -listallhardwareports | awk '/Wi-Fi/{getline; print $2}'")
+	wifiPort, err := wifiPortCmd.Output()
+
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+
+	return string(strings.TrimSpace(string(wifiPort)))
+}

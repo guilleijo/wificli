@@ -34,7 +34,8 @@ var connCmd = &cobra.Command{
 		s.Prefix = fmt.Sprintf("Connecting to %s: ", name)
 		s.Start()
 
-		cmdStr := fmt.Sprintf("networksetup -setairportnetwork en0 %s %s", name, password)
+		wifiPort := utils.GetWifiPort()
+		cmdStr := fmt.Sprintf("networksetup -setairportnetwork %s %s %s", wifiPort, name, password)
 		connectCmd := exec.Command("bash", "-c", cmdStr)
 		out, err := connectCmd.Output()
 		if err != nil {
