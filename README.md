@@ -3,9 +3,21 @@ MacOs wifi networks manager CLI in go
 
 
 ## Installation
+
+#### Instal Go if you haven't yet
+Check official docs: https://golang.org/doc/install
+
+
+#### Download package
 ```
-go get github.com/guilleijo/wificli
+$ go get github.com/guilleijo/wificli
 ```
+
+#### Add go bin to PATH to run package from anywhere
+```
+$ export PATH=$PATH:$(go env GOPATH)/bin
+```
+
 
 ## Usage
 
